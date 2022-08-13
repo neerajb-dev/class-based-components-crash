@@ -1,25 +1,33 @@
-import logo from './logo.svg';
-import './App.css';
+import React, { Component } from 'react'
+import { BrowserRouter as Router, Route } from "react-router-dom";
+// import Admin from './components/Admin';
+import Header from './components/Header';
+// import Product from './components/Product';
+// import User from './components/User';
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+// lazy loading
+const Admin = React.lazy(() => import("./components/Admin"));
+const Product = React.lazy(() => import("./components/Product"));
+const User = React.lazy(() => import("./components/User"));
+
+export default class App extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+
+    }
+  }
+
+  render() {
+    return (
+      <Router>
+        <Header />
+        <React.Suspense fallback={<div>Loading....</div>} >;
+          <Route exact path="/admin" component={Admin} />
+          <Route exact path="/product" component={Product} />
+          <Route exact path="/user" component={User} />
+        </React.Suspense>
+      </Router>
+    )
+  }
 }
-
-export default App;
